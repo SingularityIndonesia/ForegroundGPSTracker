@@ -5,6 +5,7 @@ import android.util.Log
 import arrow.core.Either
 import com.singularity_code.live_location.util.ErrorMessage
 import com.singularity_code.live_location.util.defaultOkhttp
+import com.singularity_code.live_location.util.isConnected
 import com.singularity_code.live_location.util.websocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +40,7 @@ class WebSocketRepository(
     private lateinit var webSocket: WebSocket
 
     private var socketPendingJob: Job? = null
+//    private var isConnected: Boolean = false
 
     override fun openConnection() {
         socketPendingJob?.cancel()
@@ -60,6 +62,8 @@ class WebSocketRepository(
 
     override suspend fun sendData(data: String): Either<ErrorMessage, String> {
         return kotlin.runCatching {
+            if (!webSocket.isConnected) openConnection()
+
             val result = webSocket.send(data)
             Either.Right(result.toString())
         }.getOrElse {

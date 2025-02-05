@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.singularity_code.gpstracker'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.singularity_code.gpstracker"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 

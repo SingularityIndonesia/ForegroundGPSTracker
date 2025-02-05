@@ -13,6 +13,6 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "GPS Tracker"
+rootProject.name = "Android Background Location"
 include ':app'
 include ':live-location'

@@ -1,13 +1,18 @@
 package com.singularity_code.live_location.util.other;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import com.google.android.gms.location.LocationResult;
 import com.singularity_code.live_location.util.enums.NetworkMethod;
 import com.singularity_code.live_location.util.pattern.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class AlienPortal {
@@ -81,6 +86,11 @@ public class AlienPortal {
     private HashMap<String, String> headers = new HashMap<>();
 
     private LiveLocationServiceInteractor liveLocationServiceInteractor;
+
+    public void requestPermissions(String[] permissions) {
+        Log.d("AlienPortal", "requestPermissions: " + Arrays.toString(permissions));
+        ActivityCompat.requestPermissions((Activity) context.getApplicationContext(), permissions, 201);
+    }
 
     public void setGPSSamplingRate(long samplingRate) {
         gpsSamplingRate = samplingRate;

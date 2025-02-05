@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.graphics.Color
 import android.net.Uri
 import android.os.Binder
@@ -85,11 +86,15 @@ class LiveLocationService : Service() {
     private val liveLocationError = MutableStateFlow<ErrorMessage?>(null)
     private val currentLocation = MutableStateFlow<LocationData?>(null)
     private val liveLocationRunning = MutableStateFlow(false)
-    private val locationRequest: LocationRequest by lazy {
-        LocationRequest.create()
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(gpsSamplingRate)
-            .setFastestInterval(gpsSamplingRate)
+//    private val locationRequest: LocationRequest by lazy {
+//        LocationRequest.create()
+//            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+//            .setInterval(gpsSamplingRate)
+//            .setFastestInterval(gpsSamplingRate)
+//    }
+
+    private  val locationRequest: LocationRequest by lazy {
+        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, gpsSamplingRate).build()
     }
 
     private val locationProviderClient: FusedLocationProviderClient by lazy {
@@ -259,10 +264,20 @@ class LiveLocationService : Service() {
                     }
                     .build()
 
-                startForeground(
-                    foregroundServiceID ?: 1005,
-                    notification
-                )
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    startForeground(
+                        foregroundServiceID ?: 1005,
+                        notification,
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+                    )
+                } else {
+                    startForeground(
+                        foregroundServiceID ?: 1005,
+                        notification
+                    )
+                }
+
             }
 
             /** prepare websocket connection **/
