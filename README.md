@@ -20,7 +20,7 @@ allprojects {
 Add the dependency
 ```groovy
 dependencies {
-        implementation 'com.github.SingularityIndonesia:ForegroundGPSTracker:1.3.3'
+        implementation 'com.github.SingularityIndonesia:ForegroundGPSTracker:1.4.0'
 }
 ```
 
